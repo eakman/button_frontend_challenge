@@ -4,6 +4,26 @@ body, header, div, ul, li {
   box-sizing: border-box;
 }
 
+#my-button {
+  background: #016fc4;
+  color: #fff;
+  margin: auto;
+  border: none;
+  height: 60px;
+  font-size: 32px;
+  font-weight: 300px !important;
+  position: relative;
+  top: 150px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  transition: opacity 1s;
+}
+
 #nav-bar {
   background: #fff;
   margin-top: 0;

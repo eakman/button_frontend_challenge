@@ -4,11 +4,14 @@
     var myButton = document.getElementById("my-button");
     var navBar = document.getElementById("nav-bar");
     myButton.addEventListener("click", () => {
+      myButton.style.opacity = "0";
+      window.setTimeout(() => {
+        myButton.style.display = "none";
+        var canv = document.getElementsByTagName("canvas")[0];
+        canv.style.display = "flex";
+        navBar.style.display = "flex";
+      }, 1000);
 
-      myButton.style.display = "none";
-      var canv = document.getElementsByTagName("canvas")[0];
-      canv.style.display = "flex";
-      navBar.style.display = "flex";
     });
 
 
