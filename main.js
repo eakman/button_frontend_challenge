@@ -1,6 +1,16 @@
 (() => {
 
   document.addEventListener("DOMContentLoaded", () => {
+    var myButton = document.getElementById("my-button");
+    var navBar = document.getElementById("nav-bar");
+    myButton.addEventListener("click", () => {
+
+      myButton.style.display = "none";
+      var canv = document.getElementsByTagName("canvas")[0];
+      canv.style.display = "flex";
+      navBar.style.display = "flex";
+    });
+
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(
