@@ -3,10 +3,13 @@
   document.addEventListener("DOMContentLoaded", () => {
     var myButton = document.getElementById("my-button");
     var navBar = document.getElementById("nav-bar");
+    var introTitle = document.getElementById("intro-title");
     myButton.addEventListener("click", () => {
       myButton.style.opacity = "0";
+      introTitle.style.opacity = "0";
       window.setTimeout(() => {
         myButton.style.display = "none";
+        introTitle.style.display = "none";
         var canv = document.getElementsByTagName("canvas")[0];
         canv.style.display = "flex";
 
