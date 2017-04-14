@@ -5,8 +5,6 @@ body, header, div, ul, li , button, h1{
   font-weight: 300;
 }
 
-
-
 #intro-title {
   margin: auto;
   text-align: center;
@@ -31,6 +29,7 @@ body, header, div, ul, li , button, h1{
   padding: 10px 20px 10px 20px;
   border-radius: 5px;
   transition: opacity 1s;
+
 }
 
 #nav-bar {
