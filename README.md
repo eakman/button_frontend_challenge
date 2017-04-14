@@ -14,7 +14,7 @@ Problem solving and working in collaborative environments.
 At testing all across the stack.
 
 ### My ideal project would be...
-Just about anything. I'm at the beginning of my career as a software developer and I'm just excited to roll up my sleeves and get my hands dirty.
+Just about anything. I'm at the beginning of my career as a software developer and I'm just excited by the prospect of rolling up my sleeves and getting my hands dirty.
 
 ### I'd love to work at Button because...
 I'm really attracted to Button's vibrant engineering culture and I think Button is a really interesting way to form partnerships between publishers and merchants.
