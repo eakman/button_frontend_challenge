@@ -1,5 +1,5 @@
 (() => {
-
+  SIDE_LENGTH = 35;
   document.addEventListener("DOMContentLoaded", () => {
     var myButton = document.getElementById("my-button");
     var navBar = document.getElementById("nav-bar");
@@ -9,7 +9,13 @@
         myButton.style.display = "none";
         var canv = document.getElementsByTagName("canvas")[0];
         canv.style.display = "flex";
+
         navBar.style.display = "flex";
+        window.setTimeout(() => {
+          canv.style.opacity = '1';
+          navBar.style.opacity = '1';
+        }, 500);
+
       }, 1000);
 
     });
@@ -55,7 +61,19 @@
       return sum / count;
     }
 
+    function resetVertices() {
+      for (i = 0; i < cube.geometry.vertices.length; i++) {
+        var oldX = cube.geometry.vertices[i].x;
+        var oldY = cube.geometry.vertices[i].y;
+        var oldZ = cube.geometry.vertices[i].z;
+        cube.geometry.vertices[i].x = oldX < 0 ? 0 - SIDE_LENGTH : SIDE_LENGTH;
+        cube.geometry.vertices[i].y = oldY < 0 ? 0 - SIDE_LENGTH : SIDE_LENGTH;
+        cube.geometry.vertices[i].z = oldZ < 0 ? 0 - SIDE_LENGTH : SIDE_LENGTH;
+      }
+    }
+
     function render() {
+      resetVertices();
       analyser.getByteTimeDomainData(dataArray);
       var sum = 0;
       dataArray.forEach((datum) => {
@@ -74,9 +92,9 @@
         var oldX = cube.geometry.vertices[i].x;
         var oldY = cube.geometry.vertices[i].y;
         var oldZ = cube.geometry.vertices[i].z;
-        cube.geometry.vertices[i].x = oldX < 0 ? 0 - (avs[i] % 35) : avs[i] % 35;
-        cube.geometry.vertices[i].y = oldY < 0 ? 0 - (avs[i] % 35) : avs[i] % 35;
-        cube.geometry.vertices[i].z = oldZ < 0 ? 0 - (avs[i] % 35) : avs[i] % 35;
+        cube.geometry.vertices[i].x = oldX < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+        cube.geometry.vertices[i].y = oldY < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+        cube.geometry.vertices[i].z = oldZ < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
       }
 
       cube.geometry.verticesNeedUpdate = true;

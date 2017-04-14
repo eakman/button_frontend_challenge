@@ -1,7 +1,8 @@
-body, header, div, ul, li {
+body, header, div, ul, li , button{
   margin: 0;
   font-family: Roboto, Helvetica, sans-serif;
   box-sizing: border-box;
+  font-weight: 300;
 }
 
 #my-button {
@@ -11,7 +12,6 @@ body, header, div, ul, li {
   border: none;
   height: 60px;
   font-size: 32px;
-  font-weight: 300px !important;
   position: relative;
   top: 150px;
   box-sizing: border-box;
@@ -34,27 +34,71 @@ body, header, div, ul, li {
   justify-content: space-between;
   box-shadow: 2px -1px 6px #888888;
   display: none;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+#instructions {
+  position: absolute;
+  margin: auto;
+  top: 89px;
+  left: 36%;
+  font-size: 20px;
+  color: #fff;
+
 }
 
 #nav-bar > h1 {
   height: 60px;
   font-weight: 300;
   position: relative;
-  left: 25px;
+  margin-left: 90px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  border-bottom: 3px solid #fff;
+  border-bottom: 1px solid #fff;
   user-select: none;
   cursor: help;
 }
 
-#nav-bar > h1:hover {
-    border-bottom: 3px solid #016fc4;
+#drop-down {
+  display: block;
+  position: absolute;
+  height: 0px;
 }
 
+#drop-down > p {
+  opacity: 0;
+  font-size: 16px;
+}
+
+#drop-down a {
+  opacity: 0;
+}
+
+#nav-bar > h1:hover #drop-down{
+  transition: height 1s;
+  height: 180px;
+  padding: 10px;
+  width: 150%;
+  top: 60px;
+  background: #fff;
+  cursor: auto;
+  border-top: 1px solid #016fc4;
+}
+
+#nav-bar > h1:hover #drop-down > p{
+  opacity: 1;
+}
+
+#nav-bar > h1:hover #drop-down > p > a {
+  transition: opacity 2s;
+  opacity: 1;
+}
 canvas {
   width: 100%;
   height: 100%;
   display: none;
+  opacity: 0;
+  transition: opacity 1s;
 }
