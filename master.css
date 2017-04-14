@@ -67,12 +67,14 @@ body, header, div, ul, li , button, h1{
   border-bottom: 1px solid #fff;
   user-select: none;
   cursor: help;
+  letter-spacing: 2px;
 }
 
 #drop-down {
   display: block;
   position: absolute;
   height: 0px;
+  letter-spacing: normal;
 }
 
 #drop-down > p {
@@ -88,7 +90,7 @@ body, header, div, ul, li , button, h1{
   transition: height 1s;
   height: 180px;
   padding: 10px;
-  width: 150%;
+  width: 135%;
   top: 60px;
   background: #fff;
   cursor: auto;
