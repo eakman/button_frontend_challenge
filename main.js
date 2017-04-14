@@ -71,56 +71,51 @@
         analyser.fftSize = 2048;
         var bufferLength = analyser.frequencyBinCount;
         dataArray = new Uint8Array(bufferLength);
-        render();
-      });
-
-
-
-      var initalVertices = cube.geometry.vertices.map((v) => {
-        var obj = {};
-        obj.x = v.x;
-        obj.y = v.y;
-        obj.z = v.z;
-        return obj;
-      });
-
-
-
-      function render() {
-        resetVertices(cube, initalVertices);
-        analyser.getByteTimeDomainData(dataArray);
-        var sum = 0;
-        dataArray.forEach((datum) => {
-          sum += datum;
+        var initalVertices = cube.geometry.vertices.map((v) => {
+          var obj = {};
+          obj.x = v.x;
+          obj.y = v.y;
+          obj.z = v.z;
+          return obj;
         });
-        var eigth = 1024 / 8;
-        var end = eigth;
-        var start = 1;
-        var avs = [];
-        for (var i = 0; i < 8; i ++) {
-          avs.push(averageFromRange(dataArray, start - 1, end - 1));
-          start+=eigth;
-          end+=eigth;
-        }
-        for (i = 0; i < cube.geometry.vertices.length; i++) {
-          var oldX = cube.geometry.vertices[i].x;
-          var oldY = cube.geometry.vertices[i].y;
-          var oldZ = cube.geometry.vertices[i].z;
-          cube.geometry.vertices[i].x = initalVertices[i].x < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
-          cube.geometry.vertices[i].y = initalVertices[i].y < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
-          cube.geometry.vertices[i].z = initalVertices[i].z < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
-        }
-
-        cube.geometry.verticesNeedUpdate = true;
-        cube.rotation.x += 0.002;
-        cube.rotation.y += 0.002;
-
-        requestAnimationFrame( render );
-        renderer.render( scene, camera );
-      }
+        render(cube, initalVertices, analyser, dataArray, scene, camera, renderer);
+      });
     }
 
+    function render(cube, initalVertices, analyser, dataArray, scene, camera, renderer) {
+      resetVertices(cube, initalVertices);
+      analyser.getByteTimeDomainData(dataArray);
+      var sum = 0;
+      dataArray.forEach((datum) => {
+        sum += datum;
+      });
+      var eigth = 1024 / 8;
+      var end = eigth;
+      var start = 1;
+      var avs = [];
+      for (var i = 0; i < 8; i ++) {
+        avs.push(averageFromRange(dataArray, start - 1, end - 1));
+        start+=eigth;
+        end+=eigth;
+      }
+      for (i = 0; i < cube.geometry.vertices.length; i++) {
+        var oldX = cube.geometry.vertices[i].x;
+        var oldY = cube.geometry.vertices[i].y;
+        var oldZ = cube.geometry.vertices[i].z;
+        cube.geometry.vertices[i].x = initalVertices[i].x < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+        cube.geometry.vertices[i].y = initalVertices[i].y < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+        cube.geometry.vertices[i].z = initalVertices[i].z < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+      }
 
+      cube.geometry.verticesNeedUpdate = true;
+      cube.rotation.x += 0.002;
+      cube.rotation.y += 0.002;
+
+      requestAnimationFrame( () => {
+        render(cube, initalVertices, analyser, dataArray, scene, camera, renderer);
+      });
+      renderer.render( scene, camera );
+    }
   });
 
 })();
