@@ -1,9 +1,11 @@
 (() => {
+
   SIDE_LENGTH = 35;
   document.addEventListener("DOMContentLoaded", () => {
     var myButton = document.getElementById("my-button");
     var navBar = document.getElementById("nav-bar");
     var introTitle = document.getElementById("intro-title");
+
     myButton.addEventListener("click", () => {
       myButton.style.opacity = "0";
       introTitle.style.opacity = "0";
@@ -23,6 +25,25 @@
       setUpCube();
     });
 
+    function resetVertices(cube, initalVertices) {
+      for (i = 0; i < cube.geometry.vertices.length; i++) {
+        cube.geometry.vertices[i].x = initalVertices[i].x;
+        cube.geometry.vertices[i].y = initalVertices[i].y;
+        cube.geometry.vertices[i].z = initalVertices[i].z;
+      }
+      cube.geometry.verticesNeedUpdate = true;
+    }
+
+    function averageFromRange(vals, s, e) {
+      var sum = 0;
+      var count = 0;
+      for (var i = s; i <= e; i++) {
+        sum += vals[i];
+        count += 1;
+      }
+      return sum / count;
+    }
+
     function setUpCube() {
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera(
@@ -35,7 +56,7 @@
       var renderer = new THREE.WebGLRenderer();
       renderer.setSize( window.innerWidth, window.innerHeight );
       document.body.appendChild( renderer.domElement );
-      var geometry = new THREE.BoxGeometry( 20, 20, 20);
+      var geometry = new THREE.BoxGeometry( 70, 70, 70);
       var material = new THREE.MeshNormalMaterial();
       var cube = new THREE.Mesh( geometry, material );
       scene.add( cube );
@@ -54,29 +75,19 @@
       });
 
 
-      function averageFromRange(vals, s, e) {
-        var sum = 0;
-        var count = 0;
-        for (var i = s; i <= e; i++) {
-          sum += vals[i];
-          count += 1;
-        }
-        return sum / count;
-      }
 
-      function resetVertices() {
-        for (i = 0; i < cube.geometry.vertices.length; i++) {
-          var oldX = cube.geometry.vertices[i].x;
-          var oldY = cube.geometry.vertices[i].y;
-          var oldZ = cube.geometry.vertices[i].z;
-          cube.geometry.vertices[i].x = oldX < 0 ? 0 - SIDE_LENGTH : SIDE_LENGTH;
-          cube.geometry.vertices[i].y = oldY < 0 ? 0 - SIDE_LENGTH : SIDE_LENGTH;
-          cube.geometry.vertices[i].z = oldZ < 0 ? 0 - SIDE_LENGTH : SIDE_LENGTH;
-        }
-      }
+      var initalVertices = cube.geometry.vertices.map((v) => {
+        var obj = {};
+        obj.x = v.x;
+        obj.y = v.y;
+        obj.z = v.z;
+        return obj;
+      });
+
+
 
       function render() {
-        resetVertices();
+        resetVertices(cube, initalVertices);
         analyser.getByteTimeDomainData(dataArray);
         var sum = 0;
         dataArray.forEach((datum) => {
@@ -95,9 +106,9 @@
           var oldX = cube.geometry.vertices[i].x;
           var oldY = cube.geometry.vertices[i].y;
           var oldZ = cube.geometry.vertices[i].z;
-          cube.geometry.vertices[i].x = oldX < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
-          cube.geometry.vertices[i].y = oldY < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
-          cube.geometry.vertices[i].z = oldZ < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+          cube.geometry.vertices[i].x = initalVertices[i].x < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+          cube.geometry.vertices[i].y = initalVertices[i].y < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
+          cube.geometry.vertices[i].z = initalVertices[i].z < 0 ? 0 - (avs[i] % SIDE_LENGTH) : avs[i] % SIDE_LENGTH;
         }
 
         cube.geometry.verticesNeedUpdate = true;
