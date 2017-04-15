@@ -1,6 +1,8 @@
 (() => {
 
   SIDE_LENGTH = 35;
+  PERMISSION_ERROR = "Oops! Looks like you forgot to give JELL-O-CUBE permission to use your microphone.";
+  BROWSER_ERROR = "Oops! something went wrong. Sadly, JELL-O-CUBE makes use of a browser feature which is not supported by Safari or Opera. If you're using one of those, switch to Chrome or Firefox. :)";
   document.addEventListener("DOMContentLoaded", () => {
     var myButton = document.getElementById("my-button");
     var navBar = document.getElementById("nav-bar");
@@ -62,24 +64,34 @@
       scene.add( cube );
       var analyser;
       var dataArray;
-      navigator.mediaDevices.getUserMedia({audio: true})
-      .then(function(stream) {
-        var audioCtx = new AudioContext();
-        var source = audioCtx.createMediaStreamSource(stream);
-        analyser = audioCtx.createAnalyser();
-        source.connect(analyser);
-        analyser.fftSize = 2048;
-        var bufferLength = analyser.frequencyBinCount;
-        dataArray = new Uint8Array(bufferLength);
-        var initalVertices = cube.geometry.vertices.map((v) => {
-          var obj = {};
-          obj.x = v.x;
-          obj.y = v.y;
-          obj.z = v.z;
-          return obj;
+      var instructions = document.getElementById("instructions");
+      try {
+        navigator.mediaDevices.getUserMedia({audio: true})
+        .then(function(stream) {
+          var audioCtx = new AudioContext();
+          var source = audioCtx.createMediaStreamSource(stream);
+          analyser = audioCtx.createAnalyser();
+          source.connect(analyser);
+          analyser.fftSize = 2048;
+          var bufferLength = analyser.frequencyBinCount;
+          dataArray = new Uint8Array(bufferLength);
+          var initalVertices = cube.geometry.vertices.map((v) => {
+            var obj = {};
+            obj.x = v.x;
+            obj.y = v.y;
+            obj.z = v.z;
+            return obj;
+          });
+          render(cube, initalVertices, analyser, dataArray, scene, camera, renderer);
+        }, function () {
+          instructions.innerHTML = PERMISSION_ERROR;
         });
-        render(cube, initalVertices, analyser, dataArray, scene, camera, renderer);
-      });
+      } catch(e) {
+        instructions.innerHTML = BROWSER_ERROR;
+        instructions.style.width = "400px";
+        instructions.style.left = "25px";
+      }
+
     }
 
     function render(cube, initalVertices, analyser, dataArray, scene, camera, renderer) {

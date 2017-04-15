@@ -47,10 +47,11 @@ body, header, div, ul, li , button, h1{
 }
 
 #instructions {
-  position: absolute;
   margin: auto;
+  position: absolute;
+  width: 100%;
+  text-align: center;
   top: 89px;
-  left: 36%;
   font-size: 20px;
   color: #fff;
 }
