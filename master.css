@@ -74,6 +74,7 @@ body, header, div, ul, li , button, h1{
   display: block;
   position: absolute;
   height: 0px;
+  z-index: 1;
   letter-spacing: normal;
 }
 
